@@ -1,2 +1,19 @@
+<<<<<<< HEAD
 
 desktop.ini
+=======
+Binaries
+DerivedDataCache
+Intermediate
+Saved
+.vscode
+.vs
+*.VC.db
+*.opensdf
+*.opendb
+*.sdf
+*.sln
+*.suo
+*.xcodeproj
+*.xcworkspace
+>>>>>>> 2819776 (Initial commit)
