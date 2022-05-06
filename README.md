@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # BA Thesis - Benjamin Ansohn McDougall
 
 
