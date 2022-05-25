@@ -13,6 +13,16 @@
 			]
 		}
 	],
+	"Plugins": [
+		{
+			"Name": "DatasmithFBXImporter",
+			"Enabled": true
+		},
+		{
+			"Name": "DatasmithImporter",
+			"Enabled": true
+		}
+	],
 	"TargetPlatforms": [
 		"Android",
 		"WindowsNoEditor"
