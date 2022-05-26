@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-desktop.ini
-=======
 Binaries
 DerivedDataCache
 Intermediate
@@ -16,6 +12,5 @@ Saved
 *.suo
 *.xcodeproj
 *.xcworkspace
->>>>>>> 2819776 (Initial commit)
 
 Build/
