@@ -3,6 +3,7 @@
 
 #include "BP_Node.h"
 #include "Components/SceneComponent.h"
+#include "Components/SphereComponent.h"
 
 // Sets default values
 ABP_Node::ABP_Node()
@@ -24,22 +25,47 @@ ABP_Node::ABP_Node()
 	if (!Node) {
 		Node = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeComponent"));
 		Node->SetupAttachment(RootComponent);
-		Node->bUseDefaultCollision = false;
+
+		UStaticMeshComponent* SphereVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
+		SphereVisual->SetupAttachment(Node);
+		static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
+		static ConstructorHelpers::FObjectFinder<UMaterial> SphereVisualAssetMaterial(TEXT("Material'/Game/Materials/SM_Circle2.SM_Circle2'"));
+		
+		if(SphereVisualAsset.Succeeded() && SphereVisualAssetMaterial.Succeeded())
+		{
+			SphereVisual->SetStaticMesh(SphereVisualAsset.Object);
+			SphereVisual->SetRelativeLocation(FVector(0.0f,0.0f, 20.0f));
+			SphereVisual->SetMaterial(0,SphereVisualAssetMaterial.Object);	
+			SphereVisual->SetWorldScale3D(FVector(.8f));
+			SphereVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		}
 	}
 
 	if (!StartNode) {
-		StartNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StartNode"));
+		StartNode = CreateDefaultSubobject<USphereComponent>(TEXT("StartNode"));
 		StartNode->SetupAttachment(RootComponent);
 	}
 
 	if (!EndNode) {
-		EndNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("EndNode"));
+		EndNode = CreateDefaultSubobject<USphereComponent>(TEXT("EndNode"));
 		EndNode->SetupAttachment(RootComponent);
 	}
 
 	if (!BlockedNode) {
-		BlockedNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BlockedNode"));
+		BlockedNode = CreateDefaultSubobject<USphereComponent>(TEXT("BlockedNode"));
 		BlockedNode->SetupAttachment(RootComponent);
+	}
+
+	if(!RightLine)
+	{
+		RightLine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLineConnector"));
+		RightLine->SetupAttachment(RootComponent);
+	}
+
+	if(!TopLine)
+	{
+		TopLine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopLineConnector"));
+		TopLine->SetupAttachment(RootComponent);
 	}
 
 }
