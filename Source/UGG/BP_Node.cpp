@@ -38,6 +38,7 @@ ABP_Node::ABP_Node()
 			SphereVisual->SetMaterial(0,SphereVisualAssetMaterial.Object);	
 			SphereVisual->SetWorldScale3D(FVector(.8f));
 			SphereVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+			SphereVisual->SetGenerateOverlapEvents(true);
 		}
 	}
 
