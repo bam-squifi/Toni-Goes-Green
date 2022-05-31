@@ -47,6 +47,50 @@ ABP_Node::ABP_Node()
 		CollisionComponent->InitSphereRadius(50.f);
 		CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		CollisionComponent->SetGenerateOverlapEvents(true);
+
+		UStaticMeshComponent* TopArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopArrow"));
+		UStaticMeshComponent* RightArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightArrow"));
+		UStaticMeshComponent* BottomArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BottomArrow"));
+		UStaticMeshComponent* LeftArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArrow"));
+
+		static ConstructorHelpers::FObjectFinder<UStaticMesh> ArrowPlane(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
+		static ConstructorHelpers::FObjectFinder<UMaterial> ArrowMaterial(TEXT("Material'/Game/Materials/M_Arrow.M_Arrow'"));
+
+		if(ArrowPlane.Succeeded() && ArrowMaterial.Succeeded())
+		{
+			TopArrow->SetupAttachment(Node);
+			RightArrow->SetupAttachment(Node);
+			BottomArrow->SetupAttachment(Node);
+			LeftArrow->SetupAttachment(Node);
+
+			TopArrow->SetStaticMesh(ArrowPlane.Object);
+			RightArrow->SetStaticMesh(ArrowPlane.Object);
+			BottomArrow->SetStaticMesh(ArrowPlane.Object);
+			LeftArrow->SetStaticMesh(ArrowPlane.Object);
+
+			TopArrow->SetMaterial(0, ArrowMaterial.Object);
+			RightArrow->SetMaterial(0, ArrowMaterial.Object);
+			BottomArrow->SetMaterial(0, ArrowMaterial.Object);
+			LeftArrow->SetMaterial(0, ArrowMaterial.Object);
+
+			TopArrow->SetWorldScale3D(FVector(.42f, .42f, 1.f));
+			RightArrow->SetWorldScale3D(FVector(.42f, .42f, 1.f));
+			BottomArrow->SetWorldScale3D(FVector(.42f, .42f, 1.f));
+			LeftArrow->SetWorldScale3D(FVector(.42f, .42f, 1.f));
+
+			TopArrow->SetRelativeRotation(FRotator(0.0f, 0.0f, 0.0f));
+			TopArrow->SetRelativeLocation(FVector(0.0f, -42.f, 0.0f));
+
+			RightArrow->SetRelativeRotation(FRotator(0.0f, 90.0f, 0.0f));
+			RightArrow->SetRelativeLocation(FVector(42.0f, 0.f, 0.0f));
+
+			BottomArrow->SetRelativeRotation(FRotator(0.0f, 180.0f, 0.0f));
+			BottomArrow->SetRelativeLocation(FVector(0.0f, 42.f, 0.0f));
+
+			LeftArrow->SetRelativeRotation(FRotator(0.0f, 270.0f, 0.0f));
+			LeftArrow->SetRelativeLocation(FVector(-42.0f, 0.f, 0.0f));
+		}
+		
 	}
 
 	if (!StartNode) {
@@ -56,9 +100,8 @@ ABP_Node::ABP_Node()
 		if(isStart)
 		{
 			static ConstructorHelpers::FObjectFinder<UStaticMesh> StartNodeVisualAsset(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
-			static ConstructorHelpers::FClassFinder<UMaterial> StartNodeVisualMaterial(TEXT("Material'/Game/Materials/SM_Circle2.SM_Circle2'"));
 
-			if(StartNodeVisualAsset.Succeeded() && StartNodeVisualMaterial.Succeeded())
+			if(StartNodeVisualAsset.Succeeded())
 			{
 				UE_LOG(LogTemp, Display, TEXT("Loaded succesfully"));
 			}
@@ -115,4 +158,3 @@ void ABP_Node::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 }
-

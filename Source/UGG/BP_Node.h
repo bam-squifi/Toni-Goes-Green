@@ -41,6 +41,7 @@ public:
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connectors")
 	UStaticMeshComponent* RightLine;
+	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
 	UStaticMeshComponent* Node;
@@ -64,5 +65,4 @@ public:
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
-
 };
