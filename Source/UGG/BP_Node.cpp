@@ -42,16 +42,10 @@ ABP_Node::ABP_Node()
 			NodeVisual->SetWorldScale3D(FVector(.5f, .5f, 0.01f));
 		}
 
-		USphereComponent* CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("NodeCollision"));
 		CollisionComponent->SetupAttachment(Node);
 		CollisionComponent->InitSphereRadius(50.f);
 		CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
 		CollisionComponent->SetGenerateOverlapEvents(true);
-
-		UStaticMeshComponent* TopArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopArrow"));
-		UStaticMeshComponent* RightArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightArrow"));
-		UStaticMeshComponent* BottomArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BottomArrow"));
-		UStaticMeshComponent* LeftArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArrow"));
 
 		static ConstructorHelpers::FObjectFinder<UStaticMesh> ArrowPlane(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
 		static ConstructorHelpers::FObjectFinder<UMaterial> ArrowMaterial(TEXT("Material'/Game/Materials/M_Arrow.M_Arrow'"));
@@ -150,6 +144,7 @@ bool ABP_Node::IsBlockable()
 void ABP_Node::BeginPlay()
 {
 	Super::BeginPlay();
+	ToggleArrows();
 	
 }
 
@@ -157,4 +152,30 @@ void ABP_Node::BeginPlay()
 void ABP_Node::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+}
+
+void ABP_Node::ToggleArrows() const
+{
+	if(this->Right == nullptr)
+	{
+		RightArrow->ToggleVisibility();	
+	}
+	if(this->Left == nullptr)
+	{
+		LeftArrow->ToggleVisibility();
+	}
+	if(this->Up == nullptr)
+	{
+		TopArrow->ToggleVisibility();	
+	}
+	if(this->Down == nullptr)
+	{
+		BottomArrow->ToggleVisibility();
+	}
+
+	if(this->isEnd)
+	{
+			
+	}
+	
 }
