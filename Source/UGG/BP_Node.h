@@ -3,6 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "BP_Node.generated.h"
 
@@ -36,23 +37,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "State")
 	bool isEnd;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connectors")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Connectors")
 	UStaticMeshComponent* TopLine;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Connectors")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Connectors")
 	UStaticMeshComponent* RightLine;
 	
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
 	UStaticMeshComponent* Node;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Node")
 	UStaticMeshComponent* StartNode;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Node")
 	UStaticMeshComponent* EndNode;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Node")
 	UStaticMeshComponent* BlockedNode;
 
 
@@ -61,8 +62,22 @@ public:
 
 	UFUNCTION(BlueprintCallable, Category = "State")
 	bool IsBlockable();
+	
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category="State")
+	UStaticMeshComponent* TopArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopArrow"));
+	UPROPERTY(BlueprintReadWrite, Category="State")
+	UStaticMeshComponent* RightArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightArrow"));
+	UPROPERTY(BlueprintReadWrite, Category="State")
+	UStaticMeshComponent* BottomArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BottomArrow"));
+	UPROPERTY(BlueprintReadWrite, Category="State")
+	UStaticMeshComponent* LeftArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArrow"));
+	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite,Category="State")
+	USphereComponent* CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("NodeCollision"));
 
 protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
+private:
+	void ToggleArrows() const;
+	
 };
