@@ -19,6 +19,9 @@ ABP_Node::ABP_Node()
 	}
 
 	if (!RootComponent) {
+		// USceneComponent from: https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Components/USceneComponent/
+		// A SceneComponent has a transform and supports attachment, but has no renderin or collision capabilities.
+		// Useful as a 'dummy' component in the hierarchy to offset others.
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootSceneComponent"));
 	}
 
@@ -26,47 +29,71 @@ ABP_Node::ABP_Node()
 		Node = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeComponent"));
 		Node->SetupAttachment(RootComponent);
 
-		UStaticMeshComponent* SphereVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("VisualRepresentation"));
-		SphereVisual->SetupAttachment(Node);
-		static ConstructorHelpers::FObjectFinder<UStaticMesh> SphereVisualAsset(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
-		static ConstructorHelpers::FObjectFinder<UMaterial> SphereVisualAssetMaterial(TEXT("Material'/Game/Materials/SM_Circle2.SM_Circle2'"));
+		UStaticMeshComponent* NodeVisual = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("NodeVisual"));
+		NodeVisual->SetupAttachment(Node);
+		static ConstructorHelpers::FObjectFinder<UStaticMesh> PlaneVisualAsset(TEXT("StaticMesh'/Game/MobileStarterContent/Shapes/Shape_Cylinder.Shape_Cylinder'"));
+		static ConstructorHelpers::FObjectFinder<UMaterial> SphereVisualAssetMaterial(TEXT("Material'/Game/MobileStarterContent/Materials/M_Wood_Floor_Walnut_Polished.M_Wood_Floor_Walnut_Polished'"));
 		
-		if(SphereVisualAsset.Succeeded() && SphereVisualAssetMaterial.Succeeded())
+		if(PlaneVisualAsset.Succeeded() && SphereVisualAssetMaterial.Succeeded())
 		{
-			SphereVisual->SetStaticMesh(SphereVisualAsset.Object);
-			SphereVisual->SetRelativeLocation(FVector(0.0f,0.0f, 20.0f));
-			SphereVisual->SetMaterial(0,SphereVisualAssetMaterial.Object);	
-			SphereVisual->SetWorldScale3D(FVector(.8f));
-			SphereVisual->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-			SphereVisual->SetGenerateOverlapEvents(true);
+			NodeVisual->SetStaticMesh(PlaneVisualAsset.Object);
+			NodeVisual->SetRelativeLocation(FVector(0.0f));
+			NodeVisual->SetMaterial(0,SphereVisualAssetMaterial.Object);	
+			NodeVisual->SetWorldScale3D(FVector(.5f, .5f, 0.01f));
 		}
+
+		USphereComponent* CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("NodeCollision"));
+		CollisionComponent->SetupAttachment(Node);
+		CollisionComponent->InitSphereRadius(50.f);
+		CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+		CollisionComponent->SetGenerateOverlapEvents(true);
 	}
 
 	if (!StartNode) {
-		StartNode = CreateDefaultSubobject<USphereComponent>(TEXT("StartNode"));
-		StartNode->SetupAttachment(RootComponent);
+		StartNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("StartNode"));
+		StartNode->SetupAttachment(Node);
+
+		if(isStart)
+		{
+			static ConstructorHelpers::FObjectFinder<UStaticMesh> StartNodeVisualAsset(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
+			static ConstructorHelpers::FClassFinder<UMaterial> StartNodeVisualMaterial(TEXT("Material'/Game/Materials/SM_Circle2.SM_Circle2'"));
+
+			if(StartNodeVisualAsset.Succeeded() && StartNodeVisualMaterial.Succeeded())
+			{
+				UE_LOG(LogTemp, Display, TEXT("Loaded succesfully"));
+			}
+		}
 	}
 
 	if (!EndNode) {
-		EndNode = CreateDefaultSubobject<USphereComponent>(TEXT("EndNode"));
+		EndNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("EndNode"));
 		EndNode->SetupAttachment(RootComponent);
 	}
 
 	if (!BlockedNode) {
-		BlockedNode = CreateDefaultSubobject<USphereComponent>(TEXT("BlockedNode"));
+		BlockedNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BlockedNode"));
 		BlockedNode->SetupAttachment(RootComponent);
+
+		UStaticMeshComponent* BlockedVisualAssist = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Blocked Visual Assist"));
+		BlockedVisualAssist->SetupAttachment(BlockedNode);
 	}
 
 	if(!RightLine)
 	{
 		RightLine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLineConnector"));
 		RightLine->SetupAttachment(RootComponent);
+
+		UStaticMeshComponent* RightLineVisualAssist = CreateDefaultSubobject<UStaticMeshComponent>("RightLineVisualAssist");
+		RightLineVisualAssist->SetupAttachment(RightLine);
 	}
 
 	if(!TopLine)
 	{
 		TopLine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("TopLineConnector"));
 		TopLine->SetupAttachment(RootComponent);
+
+		UStaticMeshComponent* TopLineVisualAssist = CreateDefaultSubobject<UStaticMeshComponent>("TopLineVisualAssist");
+		TopLineVisualAssist->SetupAttachment(TopLine);
 	}
 
 }

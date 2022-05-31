@@ -3,7 +3,6 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Components/SphereComponent.h"
 #include "GameFramework/Actor.h"
 #include "BP_Node.generated.h"
 
@@ -47,14 +46,17 @@ public:
 	UStaticMeshComponent* Node;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
-	USphereComponent* StartNode;
+	UStaticMeshComponent* StartNode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
-	USphereComponent* EndNode;
+	UStaticMeshComponent* EndNode;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Node")
-	USphereComponent* BlockedNode;
+	UStaticMeshComponent* BlockedNode;
 
+
+	// called every frame
+	virtual void Tick(float DeltaTime) override;
 
 	UFUNCTION(BlueprintCallable, Category = "State")
 	bool IsBlockable();
@@ -63,7 +65,4 @@ protected:
 	// Called when the game starts or when spawned
 	virtual void BeginPlay() override;
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
 };
