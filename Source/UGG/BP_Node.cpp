@@ -145,7 +145,6 @@ void ABP_Node::BeginPlay()
 {
 	Super::BeginPlay();
 	ToggleArrows();
-	
 }
 
 // Called every frame
@@ -173,9 +172,4 @@ void ABP_Node::ToggleArrows() const
 		BottomArrow->ToggleVisibility();
 	}
 
-	if(this->isEnd)
-	{
-			
-	}
-	
 }
