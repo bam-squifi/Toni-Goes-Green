@@ -10,13 +10,6 @@ ABP_Node::ABP_Node()
 {
 	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
 	PrimaryActorTick.bCanEverTick = true;
-	for (FName tag : Tags)
-	{
-		FString blockable = TEXT("blockable");
-		if (tag.ToString() == blockable) {
-			UE_LOG(LogTemp, Warning, TEXT("found blockable Tag"));
-		}
-	}
 
 	if (!RootComponent) {
 		// USceneComponent from: https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Components/USceneComponent/
@@ -41,11 +34,6 @@ ABP_Node::ABP_Node()
 			NodeVisual->SetMaterial(0,SphereVisualAssetMaterial.Object);	
 			NodeVisual->SetWorldScale3D(FVector(.5f, .5f, 0.01f));
 		}
-
-		CollisionComponent->SetupAttachment(Node);
-		CollisionComponent->InitSphereRadius(50.f);
-		CollisionComponent->SetCollisionEnabled(ECollisionEnabled::NoCollision);
-		CollisionComponent->SetGenerateOverlapEvents(true);
 
 		static ConstructorHelpers::FObjectFinder<UStaticMesh> ArrowPlane(TEXT("/Game/MobileStarterContent/Shapes/Shape_Plane.Shape_Plane"));
 		static ConstructorHelpers::FObjectFinder<UMaterial> ArrowMaterial(TEXT("Material'/Game/Materials/M_Arrow.M_Arrow'"));
@@ -107,14 +95,6 @@ ABP_Node::ABP_Node()
 		EndNode->SetupAttachment(RootComponent);
 	}
 
-	if (!BlockedNode) {
-		BlockedNode = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BlockedNode"));
-		BlockedNode->SetupAttachment(RootComponent);
-
-		UStaticMeshComponent* BlockedVisualAssist = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Blocked Visual Assist"));
-		BlockedVisualAssist->SetupAttachment(BlockedNode);
-	}
-
 	if(!RightLine)
 	{
 		RightLine = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("RightLineConnector"));
@@ -155,19 +135,19 @@ void ABP_Node::Tick(float DeltaTime)
 
 void ABP_Node::ToggleArrows() const
 {
-	if(this->Right == nullptr)
+	if(this->Right == nullptr || this->Right->isBlocked)
 	{
 		RightArrow->ToggleVisibility();	
 	}
-	if(this->Left == nullptr)
+	if(this->Left == nullptr || this->Left->isBlocked)
 	{
 		LeftArrow->ToggleVisibility();
 	}
-	if(this->Up == nullptr)
+	if(this->Up == nullptr || this->Up->isBlocked)
 	{
 		TopArrow->ToggleVisibility();	
 	}
-	if(this->Down == nullptr)
+	if(this->Down == nullptr || this->Down->isBlocked)
 	{
 		BottomArrow->ToggleVisibility();
 	}

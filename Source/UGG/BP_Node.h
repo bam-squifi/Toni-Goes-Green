@@ -53,10 +53,6 @@ public:
 	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Node")
 	UStaticMeshComponent* EndNode;
 
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite, Category = "Node")
-	UStaticMeshComponent* BlockedNode;
-
-
 	// called every frame
 	virtual void Tick(float DeltaTime) override;
 
@@ -79,5 +75,4 @@ protected:
 	virtual void BeginPlay() override;
 private:
 	void ToggleArrows() const;
-	
 };
