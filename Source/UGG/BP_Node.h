@@ -67,8 +67,6 @@ public:
 	UStaticMeshComponent* BottomArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("BottomArrow"));
 	UPROPERTY(BlueprintReadWrite, Category="State")
 	UStaticMeshComponent* LeftArrow = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("LeftArrow"));
-	UPROPERTY(VisibleDefaultsOnly, BlueprintReadWrite,Category="State")
-	USphereComponent* CollisionComponent = CreateDefaultSubobject<USphereComponent>(TEXT("NodeCollision"));
 
 protected:
 	// Called when the game starts or when spawned
