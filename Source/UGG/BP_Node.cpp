@@ -3,7 +3,6 @@
 
 #include "BP_Node.h"
 #include "Components/SceneComponent.h"
-#include "Components/SphereComponent.h"
 
 // Sets default values
 ABP_Node::ABP_Node()
@@ -13,7 +12,7 @@ ABP_Node::ABP_Node()
 
 	if (!RootComponent) {
 		// USceneComponent from: https://docs.unrealengine.com/5.0/en-US/API/Runtime/Engine/Components/USceneComponent/
-		// A SceneComponent has a transform and supports attachment, but has no renderin or collision capabilities.
+		// A SceneComponent has a transform and supports attachment, but has no rendering or collision capabilities.
 		// Useful as a 'dummy' component in the hierarchy to offset others.
 		RootComponent = CreateDefaultSubobject<USceneComponent>(TEXT("RootSceneComponent"));
 	}
@@ -135,19 +134,19 @@ void ABP_Node::Tick(float DeltaTime)
 
 void ABP_Node::ToggleArrows() const
 {
-	if(this->Right == nullptr || this->Right->isBlocked)
+	if(this->Right == nullptr)
 	{
 		RightArrow->ToggleVisibility();	
 	}
-	if(this->Left == nullptr || this->Left->isBlocked)
+	if(this->Left == nullptr)
 	{
 		LeftArrow->ToggleVisibility();
 	}
-	if(this->Up == nullptr || this->Up->isBlocked)
+	if(this->Up == nullptr)
 	{
 		TopArrow->ToggleVisibility();	
 	}
-	if(this->Down == nullptr || this->Down->isBlocked)
+	if(this->Down == nullptr)
 	{
 		BottomArrow->ToggleVisibility();
 	}
