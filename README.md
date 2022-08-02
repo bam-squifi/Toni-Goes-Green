@@ -1,4 +1,4 @@
-# BA Thesis - Benjamin Ansohn McDougall
+# Toni Goes Green
 
 [![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)](https://GitHub.com/Naereen/StrapDown.js/graphs/commit-activity)
 [![GPLv3 license](https://img.shields.io/badge/License-GPLv3-blue.svg)](http://perso.crans.org/besson/LICENSE.html)
@@ -50,4 +50,4 @@ Although the game was very playable on older devices, a Samsung A9 Tablet and an
 Releasing the game as a fully fledged title would give a broader audience the chance to play the title and be motivated to do their part in making our world a little more environmentally friendly.
 
 ## Authors and acknowledgment
-Many thanks to my wife Johanna for proof reading, Swen Wessel who helped with the graphics, the students of Prof. Norbert Reintje's Industrial Ecology class, Christian Lohaus and Jennifer Albrecht for the initial brain storming session, Fabio Anthony and my mother in law for taking care of little Ada so often.
+Many thanks to my wife Johanna for proof reading, Swen Wessel who created most of the graphics, the students of Prof. Norbert Reintje's Industrial Ecology class, Christian Lohaus and Jennifer Albrecht for the initial brain storming session, Fabio Anthony and my mother in law for taking care of little Ada so often.
